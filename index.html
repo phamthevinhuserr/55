@@ -3,109 +3,164 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Pro Quiz - Công nghệ 12</title>
+  <title>Ôn tập Công nghệ 12 - HKI</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
   <style>
     body { font-family: 'Inter', sans-serif; }
-    .glass { background: rgba(24, 24, 27, 0.8); backdrop-filter: blur(12px); border: 1px solid rgba(63, 63, 70, 0.5); }
+    /* Glassmorphism Effect */
+    .glass { 
+      background: rgba(20, 20, 23, 0.7); 
+      backdrop-filter: blur(16px); 
+      -webkit-backdrop-filter: blur(16px); 
+      border: 1px solid rgba(255, 255, 255, 0.08); 
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    /* Button States */
     .option-btn:active { transform: scale(0.98); }
-    .correct { border-color: #10b981 !important; background-color: rgba(16, 185, 129, 0.2) !important; box-shadow: 0 0 15px rgba(16, 185, 129, 0.2); }
-    .wrong { border-color: #ef4444 !important; background-color: rgba(239, 68, 68, 0.2) !important; }
-    .progress-bar { transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    
+    .correct { 
+      border-color: #10b981 !important; 
+      background-color: rgba(16, 185, 129, 0.2) !important; 
+      box-shadow: 0 0 20px rgba(16, 185, 129, 0.2);
+    }
+    
+    .wrong { 
+      border-color: #ef4444 !important; 
+      background-color: rgba(239, 68, 68, 0.2) !important; 
+    }
+    
+    /* Progress & Transitions */
+    .progress-bar { transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
+    #questionContent { transition: opacity 0.25s ease; }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #09090b; }
+    ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
   </style>
 </head>
 
-<body class="min-h-screen bg-zinc-950 text-zinc-100 selection:bg-emerald-500/30">
-  <div class="max-w-3xl mx-auto px-4 py-6 md:py-12">
+<body class="min-h-screen bg-[#09090b] text-zinc-100 selection:bg-emerald-500/30 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-zinc-900 via-[#09090b] to-[#09090b]">
+  
+  <div class="max-w-3xl mx-auto px-4 py-6 md:py-10 min-h-screen flex flex-col">
     
-    <div id="menuScreen" class="space-y-6">
-      <div class="text-center mb-10">
-        <h1 class="text-4xl font-bold bg-gradient-to-r from-emerald-400 to-cyan-400 bg-clip-text text-transparent italic">QUIZ CÔNG NGHỆ 12</h1>
-        <p class="text-zinc-400 mt-2">Lâm nghiệp – Thuỷ sản (HKI)</p>
+    <div id="menuScreen" class="flex-1 flex flex-col justify-center space-y-8 animate-in fade-in zoom-in duration-500">
+      <div class="text-center space-y-2">
+        <span class="inline-block px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-400 text-xs font-bold tracking-widest uppercase border border-emerald-500/20 mb-4">Trắc nghiệm Online</span>
+        <h1 class="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-br from-white to-zinc-500">
+          CÔNG NGHỆ 12
+        </h1>
+        <p class="text-zinc-400 font-medium">Lâm nghiệp – Thuỷ sản (HKI)</p>
       </div>
       
-      <div class="grid gap-4">
-        <button onclick="startQuiz('mcq')" class="glass p-6 rounded-3xl hover:border-emerald-500/50 transition-all text-left group relative overflow-hidden">
+      <div class="grid gap-4 mt-8">
+        <button onclick="startQuiz('mcq')" class="group glass p-6 rounded-3xl hover:bg-zinc-800/50 hover:border-emerald-500/30 transition-all duration-300 text-left relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           <div class="flex justify-between items-center relative z-10">
             <div>
-              <h3 class="text-xl font-semibold group-hover:text-emerald-400 transition">Phần I: Trắc nghiệm</h3>
-              <p class="text-zinc-500 text-sm mt-1">Gồm 50 câu hỏi lựa chọn (A, B, C, D)</p>
+              <h3 class="text-xl font-bold text-zinc-100 group-hover:text-emerald-400 transition-colors">Phần I: Trắc nghiệm</h3>
+              <p class="text-zinc-500 text-sm mt-1 font-medium">50 câu hỏi • 4 lựa chọn (A, B, C, D)</p>
             </div>
-            <span class="text-3xl">🎯</span>
+            <div class="w-12 h-12 rounded-2xl bg-zinc-900/80 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-lg border border-zinc-800">🎯</div>
           </div>
         </button>
 
-        <button onclick="startQuiz('tf')" class="glass p-6 rounded-3xl hover:border-cyan-500/50 transition-all text-left group relative overflow-hidden">
+        <button onclick="startQuiz('tf')" class="group glass p-6 rounded-3xl hover:bg-zinc-800/50 hover:border-cyan-500/30 transition-all duration-300 text-left relative overflow-hidden">
+          <div class="absolute inset-0 bg-gradient-to-r from-cyan-600/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"></div>
           <div class="flex justify-between items-center relative z-10">
             <div>
-              <h3 class="text-xl font-semibold group-hover:text-cyan-400 transition">Phần II: Đúng / Sai</h3>
-              <p class="text-zinc-500 text-sm mt-1">Gồm 10 câu hỏi phân tích (a, b, c, d)</p>
+              <h3 class="text-xl font-bold text-zinc-100 group-hover:text-cyan-400 transition-colors">Phần II: Đúng / Sai</h3>
+              <p class="text-zinc-500 text-sm mt-1 font-medium">10 câu hỏi • Phân tích 4 ý (a, b, c, d)</p>
             </div>
-            <span class="text-3xl">⚖️</span>
+            <div class="w-12 h-12 rounded-2xl bg-zinc-900/80 flex items-center justify-center text-2xl group-hover:scale-110 transition-transform shadow-lg border border-zinc-800">⚖️</div>
           </div>
         </button>
       </div>
+
+      <footer class="text-center text-zinc-600 text-xs font-medium mt-auto pt-10">
+        © 2024 Quiz System • Optimized for Speed
+      </footer>
     </div>
 
-    <div id="quizScreen" class="hidden">
-      <header class="mb-6">
+    <div id="quizScreen" class="hidden flex flex-col h-full">
+      <header class="mb-6 sticky top-0 z-20 bg-[#09090b]/80 backdrop-blur-md pt-2 pb-4">
         <div class="flex items-center justify-between mb-4">
-          <button onclick="backToMenu()" class="text-zinc-400 hover:text-white flex items-center gap-1 transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-            Menu
+          <button onclick="backToMenu()" class="group flex items-center gap-2 px-3 py-1.5 rounded-xl hover:bg-zinc-800 transition text-zinc-400 hover:text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 transition-transform group-hover:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
+            <span class="text-sm font-semibold">Thoát</span>
           </button>
-          <div class="px-4 py-1 rounded-full bg-zinc-900 border border-zinc-800 text-[10px] font-bold tracking-widest text-zinc-400 uppercase" id="modeTag">PHẦN I</div>
-          <div class="text-emerald-400 font-mono font-bold" id="liveScore">0/0</div>
+          
+          <div class="flex flex-col items-center">
+             <span id="modeTag" class="text-[10px] font-black tracking-widest text-zinc-500 uppercase">PHẦN I</span>
+          </div>
+
+          <div class="bg-zinc-900 px-3 py-1.5 rounded-xl border border-zinc-800 flex items-center gap-2">
+            <span class="text-[10px] font-bold text-zinc-500 uppercase tracking-wider">Điểm</span>
+            <span id="liveScore" class="text-emerald-400 font-mono font-bold text-sm">0</span>
+          </div>
         </div>
         
-        <div class="h-1.5 w-full bg-zinc-900 rounded-full overflow-hidden">
-          <div id="progressBar" class="progress-bar h-full bg-gradient-to-r from-emerald-500 to-cyan-500 w-0"></div>
+        <div class="h-1 w-full bg-zinc-900 rounded-full overflow-hidden">
+          <div id="progressBar" class="progress-bar h-full bg-gradient-to-r from-emerald-500 to-cyan-400 w-0 shadow-[0_0_10px_rgba(16,185,129,0.5)]"></div>
         </div>
       </header>
 
-      <main class="glass rounded-3xl p-6 md:p-8 relative">
-        <div id="questionContent">
-          <div class="flex items-center gap-2 text-zinc-500 text-xs font-bold uppercase tracking-tighter mb-2">
-            <span>Câu hỏi</span> <span id="qIndex" class="text-zinc-300">1/50</span>
+      <main class="glass rounded-[32px] p-6 md:p-8 relative flex-1 flex flex-col">
+        <div id="questionContent" class="flex-1">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="px-2.5 py-1 rounded-lg bg-zinc-800 text-[10px] font-bold text-zinc-400 uppercase tracking-wider border border-zinc-700">Câu hỏi</span>
+            <span id="qIndex" class="text-sm font-bold text-zinc-200">1/50</span>
           </div>
-          <h2 id="qTitle" class="text-lg md:text-xl font-semibold leading-snug mb-6">Đang tải...</h2>
-          <div id="qPrompt" class="mb-6 text-zinc-400 text-sm whitespace-pre-line leading-relaxed border-l-2 border-emerald-500/30 pl-4"></div>
           
-          <div id="optionsGrid" class="grid gap-3"></div>
+          <h2 id="qTitle" class="text-lg md:text-xl font-bold leading-relaxed mb-4 text-zinc-100"></h2>
+          <div id="qPrompt" class="mb-6 text-zinc-400 text-sm leading-relaxed border-l-2 border-emerald-500/30 pl-4 py-1 empty:hidden bg-zinc-900/30 rounded-r-lg"></div>
+          
+          <div id="optionsGrid" class="grid gap-3 pb-4">
+            </div>
         </div>
 
-        <div class="mt-8 flex justify-between items-center border-t border-zinc-800/50 pt-6">
-          <button id="btnPrev" onclick="changeQuestion(-1)" class="px-5 py-2.5 rounded-xl bg-zinc-900 hover:bg-zinc-800 text-sm transition disabled:opacity-20">Trước</button>
-          <button onclick="revealAnswer()" class="text-zinc-500 hover:text-zinc-300 text-xs uppercase font-bold tracking-widest transition">Đáp án</button>
-          <button id="btnNext" onclick="changeQuestion(1)" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-sm font-bold transition">Tiếp</button>
+        <div class="mt-4 pt-4 border-t border-zinc-800/50 flex justify-between items-center sticky bottom-0 bg-transparent">
+          <button id="btnPrev" onclick="changeQuestion(-1)" class="px-5 py-3 rounded-2xl bg-zinc-900 hover:bg-zinc-800 text-xs font-bold text-zinc-400 hover:text-zinc-200 transition disabled:opacity-0 disabled:pointer-events-none uppercase tracking-wider">Trước</button>
+          
+          <button onclick="revealAnswer()" class="px-4 py-2 rounded-xl text-zinc-600 hover:text-zinc-300 text-[10px] font-black uppercase tracking-[0.2em] transition hover:bg-zinc-800/50">Hiện đáp án</button>
+          
+          <button id="btnNext" onclick="changeQuestion(1)" class="px-6 py-3 rounded-2xl bg-zinc-100 hover:bg-white text-black text-xs font-bold transition shadow-lg shadow-zinc-900/20 active:scale-95 uppercase tracking-wider flex items-center gap-2">
+            Tiếp theo <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
+          </button>
         </div>
       </main>
     </div>
 
-    <div id="resultScreen" class="hidden text-center glass rounded-3xl p-10">
-      <div class="text-6xl mb-6">🎉</div>
-      <h2 class="text-3xl font-bold mb-2">Hoàn thành!</h2>
-      <p class="text-zinc-400 mb-8">Bạn đã kết thúc nội dung ôn tập.</p>
-      
-      <div class="grid grid-cols-2 gap-4 mb-8">
-        <div class="bg-zinc-950/50 p-6 rounded-2xl border border-zinc-800">
-          <div class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Số câu đúng</div>
-          <div id="resCorrect" class="text-4xl font-black text-emerald-400">0</div>
+    <div id="resultScreen" class="hidden flex-1 flex flex-col justify-center items-center text-center animate-in zoom-in duration-300">
+      <div class="glass p-8 md:p-12 rounded-[40px] max-w-md w-full border-t border-white/10">
+        <div class="w-20 h-20 mx-auto bg-gradient-to-br from-emerald-400 to-cyan-500 rounded-3xl flex items-center justify-center text-4xl shadow-xl shadow-emerald-900/20 mb-6">🏆</div>
+        
+        <h2 class="text-3xl font-black mb-2 text-white">Hoàn thành!</h2>
+        <p class="text-zinc-400 text-sm font-medium mb-8">Bạn đã trả lời hết các câu hỏi trong phần này.</p>
+        
+        <div class="grid grid-cols-2 gap-4 mb-8">
+          <div class="bg-zinc-900/50 p-5 rounded-3xl border border-zinc-800">
+            <div class="text-zinc-500 text-[10px] uppercase font-black tracking-widest mb-1">Số câu đúng</div>
+            <div id="resCorrect" class="text-3xl font-black text-emerald-400">0</div>
+          </div>
+          <div class="bg-zinc-900/50 p-5 rounded-3xl border border-zinc-800">
+            <div class="text-zinc-500 text-[10px] uppercase font-black tracking-widest mb-1">Tỉ lệ</div>
+            <div id="resPercent" class="text-3xl font-black text-cyan-400">0%</div>
+          </div>
         </div>
-        <div class="bg-zinc-950/50 p-6 rounded-2xl border border-zinc-800">
-          <div class="text-zinc-500 text-[10px] uppercase font-bold mb-1">Tỉ lệ</div>
-          <div id="resPercent" class="text-4xl font-black text-cyan-400">0%</div>
-        </div>
+        
+        <button onclick="backToMenu()" class="w-full py-4 rounded-2xl bg-zinc-100 hover:bg-white text-zinc-900 font-bold transition hover:scale-[1.02] active:scale-[0.98] shadow-lg">Quay lại Menu</button>
       </div>
-      
-      <button onclick="backToMenu()" class="w-full py-4 rounded-2xl bg-gradient-to-r from-emerald-600 to-emerald-500 font-bold transition hover:scale-[1.02] active:scale-[0.98]">Quay lại Menu</button>
     </div>
   </div>
 
 <script>
-/* DATA FULL 60 CÂU (50 MCQ + 10 TF) */
+/* ====== FULL DATA (50 MCQ + 10 TF) ====== */
 const DATA = [
+  /* PHẦN I: TRẮC NGHIỆM (MCQ 1-50) */
   { id:"MCQ-1", title:"Câu 1. Bảo vệ rừng là", choices:[{key:"A", text:"bảo vệ môi trường sống cho rất nhiều loài thực vật, động vật rừng, trong đó có nhiều loại động, thực vật quý hiếm."}, {key:"B", text:"bảo vệ đa dạng sinh học, bảo tồn nguồn gene các loài động vật, thực vật quý hiếm."}, {key:"C", text:"duy trì diện tích rừng và tài nguyên rừng phù hợp, thông qua đó điều hoà không khí."}, {key:"D", text:"duy trì diện tích rừng và tài nguyên phù hợp, thông qua đó bảo vệ nguồn nước và ngăn chặn các hiện tượng thiên tai như lũ lụt, sạt lở đất."}], answer:"A" },
   { id:"MCQ-2", title:"Câu 2. Ứng dụng công nghệ sinh học trong xử lí vi sinh vật gây hại là", choices:[{key:"A", text:"tuyển chọn và nhân giống các chủng vi khuẩn an toàn với thuỷ sản, đồng thời có khả năng phân giải các chất hữu cơ trong nước."}, {key:"B", text:"tuyển chọn và nhân giống các chủng vi sinh vật có khả năng phân giải khí độc có trong môi trường nuôi thuỷ sản."}, {key:"C", text:"tuyển chọn và nhân giống các vi sinh vật có lợi, có khả năng đối kháng với vi sinh vật gây bệnh trong môi trường thuỷ sản."}, {key:"D", text:"sử dụng các hoá chất thân thiện với môi trường để xử lí các vấn đề về vi sinh vật gây hại trong nước."}], answer:"C" },
   { id:"MCQ-3", title:"Câu 3. Đâu không phải vai trò quan trọng của thuỷ sản đối với đời sống con người và nền kinh tế?", choices:[{key:"A", text:"Cung cấp thực phẩm giàu protein cho con người."}, {key:"B", text:"Cung cấp khoáng sản, nhiên liệu hoá thạch cho công nghiệp máy móc."}, {key:"C", text:"Cung cấp nguyên liệu cho chế biến và xuất khẩu."}, {key:"D", text:"Khẳng định chủ quyền biển đảo và an ninh quốc phòng."}], answer:"B" },
@@ -126,38 +181,38 @@ const DATA = [
   { id:"MCQ-18", title:"Câu 18. Để bảo vệ và khai thác tài nguyên rừng bền vững, cần nghiêm cấm hành vi nào sau đây?", choices:[{key:"A", text:"Chặt phá, khai thác, lấn chiếm rừng trái quy định của pháp luật."}, {key:"B", text:"Xây dựng khu bảo tồn thiên nhiên như vườn quốc gia, khu dự trữ sinh quyển."}, {key:"C", text:"Tuyên truyền trồng cây gây rừng, phủ xanh đồi trọc."}, {key:"D", text:"Kiểm tra, thanh tra chấp hành pháp luật về bảo vệ và phát triển rừng."}], answer:"A" },
   { id:"MCQ-19", title:"Câu 19. Hình thức khai thác nào là chặt toàn bộ cây rừng?", choices:[{key:"A", text:"Khai thác trắng."}, {key:"B", text:"Khai thác chọn."}, {key:"C", text:"Khai thác dần và khai thác trắng."}, {key:"D", text:"Khai thác dần và khai thác chọn."}], answer:"C" },
   { id:"MCQ-20", title:"Câu 20. Để phát triển thuỷ sản bền vững cần tăng tỷ lệ nuôi, giảm tỷ lệ khai thác vì", choices:[{key:"A", text:"giảm áp lực lên nguồn thuỷ sản tự nhiên và tăng thu nhập cho người dân."}, {key:"B", text:"tăng thêm thu nhập cho người dân."}, {key:"C", text:"giảm áp lực lên nguồn thuỷ sản tự nhiên."}, {key:"D", text:"tăng áp lực lên nguồn thuỷ sản tự nhiên và tăng thu nhập cho người dân."}], answer:"A" },
-  { id:"MCQ-21", title:"Câu 21. Nhược điểm của nuôi trồng thuỷ sản quảng canh là", choices:[{key:"A", text:"vốn đầu tư lớn, rủi ro cao nếu người nuôi không nắm vững kiến thức."}, {key:"B", text:"chưa áp dụng công nghệ cao nên năng suất chưa phải là cao nhất."}, {key:"C", text:"năng suất và sản lượng thấp; quản lí và vận hành khó khăn."}], answer:"C" },
+  { id:"MCQ-21", title:"Câu 21. Nhược điểm của nuôi trồng thuỷ sản quảng canh là", choices:[{key:"A", text:"vốn đầu tư lớn, rủi ro cao nếu người nuôi không nắm vững kiến thức."}, {key:"B", text:"chưa áp dụng công nghệ cao nên năng suất chưa phải là cao nhất."}, {key:"C", text:"năng suất và sản lượng thấp; quản lí và vận hành khó khăn."}, {key:"D", text:"thuỷ sản sinh trưởng và phát triển kém."}], answer:"C" },
   { id:"MCQ-22", title:"Câu 22. Mật độ của các cây thuỷ sinh quá cao sẽ dẫn đến hậu quả gì?", choices:[{key:"A", text:"Tăng lượng vi sinh vật gây hại cho con nuôi."}, {key:"B", text:"Cạnh tranh oxygen hoà tan với thuỷ sản; thực vật bao phủ mặt nước ngăn oxygen khuếch tán vào nước."}, {key:"C", text:"Cạnh tranh thức ăn và oxygen của con nuôi."}, {key:"D", text:"Tăng ô nhiễm nguồn nước."}], answer:"B" },
   { id:"MCQ-23", title:"Câu 23. Một trong những biểu hiện khi cá thiếu oxygen là nổi đầu nhiều trên mặt nước. Ta nên xử lý như thế nào?", choices:[{key:"A", text:"Hoà tan H₂O₂ vào nước để phân huỷ thành O₂."}, {key:"B", text:"Sục khí, quạt nước để bổ sung oxygen."}, {key:"C", text:"Trồng bổ sung rong, tảo."}, {key:"D", text:"Dùng hệ thống nâng nhiệt, chiếu đèn hoặc sục khí."}], answer:"B" },
   { id:"MCQ-24", title:"Câu 24. Thứ tự các bước cơ bản xử lí nguồn nước trước khi nuôi thuỷ sản là", prompt:"1. Diệt tạp, khử khuẩn.\n2. Bón phân gây màu.\n3. Lắng lọc.\n4. Khử hoá chất.", choices:[{key:"A", text:"(1), (2), (3), (4)."}, {key:"B", text:"(4), (2), (3), (1)."}, {key:"C", text:"(3), (1), (4), (2)."}, {key:"D", text:"(2), (4), (1), (3)."}], answer:"C" },
-  { id:"MCQ-25", title:"Câu 25. Thực trạng trồng và chăm sóc rừng ở nước ta trong các năm gần đây là", choices:[{key:"A", text:"diện tích rừng tăng nhưng vẫn chưa đáp ứng chỉ tiêu."}, {key:"B", text:"diện tích rừng tăng đáng kể đã đáp ứng mục tiêu."}, {key:"C", text:"diện tích rừng tăng vượt mục tiêu."}, {key:"D", text:"diện tích rừng giảm."}], answer:"A" },
-  { id:"MCQ-26", title:"Câu 26. Để nâng cao ý thức bảo vệ tài nguyên rừng cho người dân, cần thực hiện hoạt động nào sau đây?", choices:[{key:"A", text:"Tăng cường trồng rừng."}, {key:"B", text:"Tổ chức tuyên truyền về vai trò, giá trị của rừng."}, {key:"C", text:"Tăng cường tuần tra."}, {key:"D", text:"Làm hàng rào bảo vệ."}], answer:"B" },
-  { id:"MCQ-27", title:"Câu 27. Vì sao trồng cây xanh ở khu vực đô thị và nông thôn lại có tác dụng bảo vệ tài nguyên rừng?", choices:[{key:"A", text:"Tạo nguồn gỗ cung cấp cho nhu cầu của con người, giảm nhu cầu khai thác gỗ từ rừng."}, {key:"B", text:"Tạo nguồn cây giống."}, {key:"C", text:"Tạo lá chắn bảo vệ."}, {key:"D", text:"Tạo môi trường sống trong lành."}], answer:"A" },
-  { id:"MCQ-28", title:"Câu 28. Phát biểu nào sau đây đúng khi nói về phương thức khai thác dần?", choices:[{key:"A", text:"Thường áp dụng với rừng phòng hộ đầu nguồn."}, {key:"B", text:"Rừng sẽ tự phục hồi nhờ sự tái sinh tự nhiên của cây rừng."}, {key:"C", text:"Thường áp dụng ở nơi có độ dốc cao."}, {key:"D", text:"Khai thác đến đâu trồng lại rừng đến đó."}], answer:"B" },
-  { id:"MCQ-29", title:"Câu 29. Trong bối cảnh cách mạng công nghiệp 4.0, triển vọng của ngành thuỷ sản nước ta trong thời gian tới là", choices:[{key:"A", text:"đưa nước ta trở thành một trong ba nước xuất khẩu thuỷ sản dẫn đầu thế giới."}, {key:"B", text:"tăng tỉ lệ nuôi và tăng tỉ lệ khai thác."}, {key:"C", text:"đưa nước ta trở thành quốc gia khai thác dẫn đầu."}, {key:"D", text:"đảm bảo lao động có mức thu nhập cao nhất."}], answer:"A" },
-  { id:"MCQ-30", title:"Câu 30. Cho các nhận định về vai trò của thuỷ sản sau đây.", prompt:"(1) Cung cấp thực phẩm.\n(2) Phát triển kinh tế.\n(3) Cung cấp thịt, cá, trứng, sữa.\n(4) Đảm bảo an ninh quốc phòng.\n(5) Cung cấp nguyên liệu xuất khẩu.", choices:[{key:"A", text:"(1), (2), (4), (5)."}, {key:"B", text:"(1), (3), (4), (5)."}, {key:"C", text:"(1), (2), (3), (4)."}, {key:"D", text:"(2), (3), (4), (5)."}], answer:"A" },
-  { id:"MCQ-31", title:"Câu 31. Phát biểu nào sai khi nói về xu hướng phát triển của thuỷ sản?", choices:[{key:"A", text:"Phát triển thuỷ sản bền vững cần giảm tỉ lệ nuôi, tăng tỉ lệ khai thác."}, {key:"B", text:"Áp dụng công nghệ cao."}, {key:"C", text:"Hướng tới VietGAP, GlobalGAP."}, {key:"D", text:"Gắn với bảo vệ nguồn lợi thuỷ sản."}], answer:"A" },
-  { id:"MCQ-32", title:"Câu 32. Yêu cầu cơ bản đối với người lao động trong ngành thuỷ sản:", prompt:"(1) Yêu thiên nhiên.\n(2) Tuân thủ an toàn lao động.\n(3) Thích sưu tầm sinh vật quý hiếm.\n(4) Có sức khoẻ tốt, chăm chỉ.", choices:[{key:"A", text:"(1), (3), (4)."}, {key:"B", text:"(1), (2), (4)."}, {key:"C", text:"(2), (3), (4)."}, {key:"D", text:"(1), (2), (3)."}], answer:"B" },
-  { id:"MCQ-33", title:"Câu 33. Dựa vào nguồn gốc, các loài thuỷ sản được phân loại thành:", choices:[{key:"A", text:"Thuỷ sản nhập nội và thuỷ sản bản địa."}, {key:"B", text:"Thuỷ sản ưa ẩm và thuỷ sản ưa lạnh."}, {key:"C", text:"Thuỷ sản nước ngọt và nước mặn."}, {key:"D", text:"Thuỷ sản ăn thực vật và ăn động vật."}], answer:"A" },
+  { id:"MCQ-25", title:"Câu 25. Thực trạng trồng và chăm sóc rừng ở nước ta trong các năm gần đây là", choices:[{key:"A", text:"diện tích rừng tăng nhưng vẫn chưa đáp ứng chỉ tiêu; chủ yếu phục vụ kinh tế không phải phòng hộ, đặc dụng."}, {key:"B", text:"diện tích rừng tăng đáng kể đã đáp ứng mục tiêu; chủ yếu là rừng phòng hộ."}, {key:"C", text:"diện tích rừng tăng vượt mục tiêu; rừng kinh tế hay phòng hộ đều được chú trọng."}, {key:"D", text:"diện tích rừng giảm; rừng phòng hộ bị tàn phá nặng, rừng kinh tế cũng không chú trọng."}], answer:"A" },
+  { id:"MCQ-26", title:"Câu 26. Để nâng cao ý thức bảo vệ tài nguyên rừng cho người dân, cần thực hiện hoạt động nào sau đây?", choices:[{key:"A", text:"Tăng cường trồng rừng, trồng cây xanh ở đô thị và nông thôn."}, {key:"B", text:"Tổ chức tuyên truyền về vai trò, giá trị của rừng đối với đời sống và môi trường."}, {key:"C", text:"Tăng cường tuần tra, giám sát để ngăn chặn chặt phá rừng."}, {key:"D", text:"Làm hàng rào bảo vệ rừng và phòng trừ sinh vật gây hại rừng."}], answer:"B" },
+  { id:"MCQ-27", title:"Câu 27. Vì sao trồng cây xanh ở khu vực đô thị và nông thôn lại có tác dụng bảo vệ tài nguyên rừng?", choices:[{key:"A", text:"Tạo nguồn gỗ cung cấp cho nhu cầu của con người, giảm nhu cầu khai thác gỗ từ rừng."}, {key:"B", text:"Tạo nguồn cây giống cung cấp cho trồng rừng."}, {key:"C", text:"Tạo lá chắn bảo vệ tài nguyên rừng."}, {key:"D", text:"Tạo môi trường sống trong lành cho con người."}], answer:"A" },
+  { id:"MCQ-28", title:"Câu 28. Phát biểu nào sau đây đúng khi nói về phương thức khai thác dần?", choices:[{key:"A", text:"Thường áp dụng với rừng phòng hộ đầu nguồn."}, {key:"B", text:"Rừng sẽ tự phục hồi nhờ sự tái sinh tự nhiên của cây rừng."}, {key:"C", text:"Thường áp dụng ở nơi có độ dốc cao, lượng mưa nhiều."}, {key:"D", text:"Khai thác đến đâu trồng lại rừng đến đó."}], answer:"B" },
+  { id:"MCQ-29", title:"Câu 29. Trong bối cảnh cách mạng công nghiệp 4.0, triển vọng của ngành thuỷ sản nước ta trong thời gian tới là", choices:[{key:"A", text:"đưa nước ta trở thành một trong ba nước xuất khẩu thuỷ sản dẫn đầu thế giới."}, {key:"B", text:"tăng tỉ lệ nuôi và tăng tỉ lệ khai thác thuỷ sản."}, {key:"C", text:"đưa nước ta trở thành quốc gia khai thác thuỷ sản dẫn đầu thế giới."}, {key:"D", text:"phát triển đảm bảo lao động thuỷ sản có mức thu nhập cao nhất cả nước."}], answer:"A" },
+  { id:"MCQ-30", title:"Câu 30. Cho các nhận định về vai trò của thuỷ sản sau đây. Các nhận định đúng là:", prompt:"(1) Cung cấp thực phẩm cho tiêu dùng trong nước và xuất khẩu.\n(2) Phát triển kinh tế, tạo công ăn việc làm.\n(3) Cung cấp thịt, cá, trứng, sữa.\n(4) Đảm bảo an ninh quốc phòng và chủ quyền biển đảo.\n(5) Cung cấp nguyên liệu cho chế biến xuất khẩu.", choices:[{key:"A", text:"(1), (2), (4), (5)."}, {key:"B", text:"(1), (3), (4), (5)."}, {key:"C", text:"(1), (2), (3), (4)."}, {key:"D", text:"(2), (3), (4), (5)."}], answer:"A" },
+  { id:"MCQ-31", title:"Câu 31. Phát biểu nào sai khi nói về xu hướng phát triển của thuỷ sản ở Việt Nam và trên thế giới?", choices:[{key:"A", text:"Phát triển thuỷ sản bền vững cần giảm tỉ lệ nuôi, tăng tỉ lệ khai thác."}, {key:"B", text:"Áp dụng công nghệ cao để phát triển bền vững."}, {key:"C", text:"Hướng tới nuôi trồng theo tiêu chuẩn VietGAP, GlobalGAP."}, {key:"D", text:"Phát triển bền vững gắn với bảo vệ nguồn lợi thuỷ sản."}], answer:"A" },
+  { id:"MCQ-32", title:"Câu 32. Có những yêu cầu cơ bản đối với người lao động trong ngành thuỷ sản… Các nhận định đúng là:", prompt:"(1) Yêu thiên nhiên, yêu thích sinh vật, có kiến thức cơ bản về thuỷ sản.\n(2) Tuân thủ an toàn lao động và có ý thức bảo vệ môi trường.\n(3) Thích sưu tầm sinh vật quý hiếm.\n(4) Có sức khoẻ tốt, chăm chỉ, chịu khó, trách nhiệm cao.", choices:[{key:"A", text:"(1), (3), (4)."}, {key:"B", text:"(1), (2), (4)."}, {key:"C", text:"(2), (3), (4)."}, {key:"D", text:"(1), (2), (3)."}], answer:"B" },
+  { id:"MCQ-33", title:"Câu 33. Dựa vào nguồn gốc, các loài thuỷ sản được phân loại thành các nhóm nào sau đây?", choices:[{key:"A", text:"Thuỷ sản nhập nội và thuỷ sản bản địa."}, {key:"B", text:"Thuỷ sản ưa ẩm và thuỷ sản ưa lạnh."}, {key:"C", text:"Thuỷ sản nước ngọt và thuỷ sản nước mặn."}, {key:"D", text:"Thuỷ sản ăn thực vật và thuỷ sản ăn động vật."}], answer:"A" },
   { id:"MCQ-34", title:"Câu 34. Loài nào sau đây thuộc nhóm thuỷ sản nhập nội?", choices:[{key:"A", text:"Cá chép."}, {key:"B", text:"Cá rô đồng."}, {key:"C", text:"Ốc nhồi."}, {key:"D", text:"Cá hồi vân."}], answer:"D" },
   { id:"MCQ-35", title:"Câu 35. Cá tầm, cá hồi vân thuộc nhóm thuỷ sản nào sau đây?", choices:[{key:"A", text:"Thuỷ sản bản địa."}, {key:"B", text:"Thuỷ sản nhập nội."}, {key:"C", text:"Thuỷ sản nhập khẩu."}, {key:"D", text:"Thuỷ sản xuất khẩu."}], answer:"B" },
   { id:"MCQ-36", title:"Câu 36. Loài nào sau đây thuộc nhóm thuỷ sản bản địa?", choices:[{key:"A", text:"Cá chép, cá tra, ếch đồng, cá tầm."}, {key:"B", text:"Cá hồi vân, cá chép, cá tra, ếch đồng."}, {key:"C", text:"Cá chép, cá rô đồng, ếch đồng, cá diếc."}, {key:"D", text:"Cá chép, cá tra, cá tầm, cá nheo Mỹ."}], answer:"C" },
   { id:"MCQ-37", title:"Câu 37. Nhóm động vật thuỷ sản nào sau đây thuộc nhóm thuỷ sản nước ngọt?", choices:[{key:"A", text:"Cá chép, cá mè, cá trắm cỏ, cá rô phi."}, {key:"B", text:"Cá chép, ngao, tôm hùm, cá trắm cỏ."}, {key:"C", text:"Cá chép, cá mè, ngao, hàu, cá rô phi."}, {key:"D", text:"Cá chép, cá mè, cá hồi vân, hàu, cá rô phi."}], answer:"A" },
-  { id:"MCQ-38", title:"Câu 38. Nuôi trồng thuỷ sản bán thâm canh có đặc điểm là", choices:[{key:"A", text:"dễ vận hành, quản lí, phù hợp với điều kiện kinh tế của người nuôi."}, {key:"B", text:"chưa áp dụng công nghệ cao."}, {key:"C", text:"năng suất thấp."}, {key:"D", text:"vốn vận hành thấp."}], answer:"A" },
-  { id:"MCQ-39", title:"Câu 39. “Nuôi trồng… cung cấp giống nhân tạo, thức ăn công nghiệp” là đặc điểm của:", choices:[{key:"A", text:"Nuôi trồng thuỷ sản bán thâm canh."}, {key:"B", text:"Nuôi trồng thuỷ sản quảng canh."}, {key:"C", text:"Nuôi trồng thuỷ sản siêu thâm canh."}, {key:"D", text:"Nuôi trồng thuỷ sản thâm canh."}], answer:"D" },
-  { id:"MCQ-40", title:"Câu 40. Trong nguồn lợi thuỷ sản, những nhóm loài giáp xác biển quan trọng nhất là", choices:[{key:"A", text:"tôm biển, cua bùn, tôm càng xanh."}, {key:"B", text:"ghẹ, cua biển, tôm sú."}, {key:"C", text:"tôm hùm, ghẹ, cua hoàng đế."}, {key:"D", text:"tôm he, cua biển, tôm hùm."}], answer:"D" },
-  { id:"MCQ-41", title:"Câu 41. Khoảng nhiệt độ trong nước thích hợp để cá rô phi sinh trưởng là", choices:[{key:"A", text:"từ 25 đến 30 °C."}, {key:"B", text:"từ 23 đến 28 °C."}, {key:"C", text:"từ 18 đến 25 °C."}, {key:"D", text:"từ 10 đến 39 °C."}], answer:"A" },
-  { id:"MCQ-42", title:"Câu 42. Nhận định đúng về yêu cầu thuỷ hoá:", prompt:"(1) Độ pH.\n(2) Hàm lượng NH₃.\n(3) Độ trong.\n(4) Oxygen hoà tan.\n(5) Độ mặn.", choices:[{key:"A", text:"(1), (2), (4), (5)."}, {key:"B", text:"(1), (3), (4), (5)."}, {key:"C", text:"(1), (2), (3), (4)."}, {key:"D", text:"(2), (3), (4), (5)."}], answer:"A" },
-  { id:"MCQ-43", title:"Câu 43. Độ trong của nước phù hợp cho hầu hết ao nuôi tôm là", choices:[{key:"A", text:"từ 20 đến 30 cm."}, {key:"B", text:"từ 10 đến 30 cm."}, {key:"C", text:"từ 25 đến 40 cm."}, {key:"D", text:"từ 30 đến 45 cm."}], answer:"D" },
-  { id:"MCQ-44", title:"Câu 44. Hàm lượng oxygen hoà tan thích hợp đối với cá là", choices:[{key:"A", text:"từ 4 đến 5 mg/L."}, {key:"B", text:"dưới 3 mg/L."}, {key:"C", text:"từ 1 đến 5 mg/L."}, {key:"D", text:"dưới 1 mg/L."}], answer:"A" },
-  { id:"MCQ-45", title:"Câu 45. Phát biểu sai về vai trò của vi sinh vật có lợi:", choices:[{key:"A", text:"Phân giải thức ăn dư thừa."}, {key:"B", text:"Phân huỷ chất thải."}, {key:"C", text:"Chuyển hoá khí độc."}, {key:"D", text:"Có thể sinh ra các khí độc như NH₃, H₂S."}], answer:"D" },
-  { id:"MCQ-46", title:"Câu 46. Nhóm vi sinh vật phổ biến có thể gây bệnh cho thuỷ sản là", choices:[{key:"A", text:"Bacillus."}, {key:"B", text:"Nitrosomonas."}, {key:"C", text:"Nitrobacter."}, {key:"D", text:"Vibrio."}], answer:"D" },
-  { id:"MCQ-47", title:"Câu 47. Yếu tố chính tạo ra chất thải gây ảnh hưởng đến môi trường nước là", choices:[{key:"A", text:"cung cấp thức ăn."}, {key:"B", text:"bổ sung chế phẩm sinh học."}, {key:"C", text:"hoá chất xử lí."}, {key:"D", text:"thuốc phòng bệnh."}], answer:"A" },
-  { id:"MCQ-48", title:"Câu 48. Phát biểu không đúng khi nói về quản lí môi trường nuôi thuỷ sản:", choices:[{key:"A", text:"Duy trì điều kiện sống ổn định."}, {key:"B", text:"Tăng cường sự phát sinh ô nhiễm."}, {key:"C", text:"Giảm chi phí xử lí ô nhiễm."}, {key:"D", text:"Đảm bảo các thông số phù hợp."}], answer:"B" },
-  { id:"MCQ-49", title:"Câu 49. Hoá chất thích hợp để diệt tạp, diệt khuẩn là", choices:[{key:"A", text:"chlorine, phèn nhôm."}, {key:"B", text:"chlorine, thuốc tím, phèn nhôm."}, {key:"C", text:"chlorine, thuốc tím, Iodine."}, {key:"D", text:"chlorine, phèn nhôm, nước vôi."}], answer:"C" },
-  { id:"MCQ-50", title:"Câu 50. Ứng dụng công nghệ sinh học trong xử lí môi trường nuôi thuỷ sản phổ biến là", choices:[{key:"A", text:"xử lí chất thải hữu cơ, xử lí khí độc và vi sinh vật gây hại."}, {key:"B", text:"xử lí chất thải vô cơ."}, {key:"C", text:"xử lí vi sinh vật có lợi."}, {key:"D", text:"xử lí chất thải vô cơ và khí độc."}], answer:"A" },
+  { id:"MCQ-38", title:"Câu 38. Nuôi trồng thuỷ sản bán thâm canh có đặc điểm là", choices:[{key:"A", text:"dễ vận hành, quản lí, phù hợp với điều kiện kinh tế của người nuôi."}, {key:"B", text:"chưa áp dụng công nghệ cao, năng suất thấp."}, {key:"C", text:"năng suất và sản lượng thấp."}, {key:"D", text:"vốn vận hành thấp, quản lí và vận hành khó khăn."}], answer:"A" },
+  { id:"MCQ-39", title:"Câu 39. “Nuôi trồng… cung cấp giống nhân tạo, thức ăn công nghiệp” là đặc điểm của phương thức nuôi nào?", choices:[{key:"A", text:"Nuôi trồng thuỷ sản bán thâm canh."}, {key:"B", text:"Nuôi trồng thuỷ sản quảng canh."}, {key:"C", text:"Nuôi trồng thuỷ sản siêu thâm canh."}, {key:"D", text:"Nuôi trồng thuỷ sản thâm canh."}], answer:"D" },
+  { id:"MCQ-40", title:"Câu 40. Trong nguồn lợi thuỷ sản của Việt Nam, những nhóm loài giáp xác biển quan trọng nhất là", choices:[{key:"A", text:"tôm biển, cua bùn, tôm càng xanh."}, {key:"B", text:"ghẹ, cua biển, tôm sú, tôm thẻ chân trắng."}, {key:"C", text:"tôm hùm, ghẹ, cua hoàng đế."}, {key:"D", text:"tôm he, cua biển, tôm hùm."}], answer:"D" },
+  { id:"MCQ-41", title:"Câu 41. Khoảng nhiệt độ trong nước thích hợp để cá rô phi sinh trưởng phát triển là", choices:[{key:"A", text:"từ 25 đến 30 °C."}, {key:"B", text:"từ 23 đến 28 °C."}, {key:"C", text:"từ 18 đến 25 °C."}, {key:"D", text:"từ 10 đến 39 °C."}], answer:"A" },
+  { id:"MCQ-42", title:"Câu 42. Các nhận định đúng về yêu cầu thuỷ hoá của môi trường nuôi thuỷ sản là", prompt:"(1) Độ pH.\n(2) Hàm lượng NH₃.\n(3) Độ trong và màu nước.\n(4) Hàm lượng oxygen hoà tan.\n(5) Độ mặn.", choices:[{key:"A", text:"(1), (2), (4), (5)."}, {key:"B", text:"(1), (3), (4), (5)."}, {key:"C", text:"(1), (2), (3), (4)."}, {key:"D", text:"(2), (3), (4), (5)."}], answer:"A" },
+  { id:"MCQ-43", title:"Câu 43. Độ trong của nước phù hợp cho hầu hết các ao nuôi tôm là", choices:[{key:"A", text:"từ 20 đến 30 cm."}, {key:"B", text:"từ 10 đến 30 cm."}, {key:"C", text:"từ 25 đến 40 cm."}, {key:"D", text:"từ 30 đến 45 cm."}], answer:"D" },
+  { id:"MCQ-44", title:"Câu 44. Hàm lượng oxygen hoà tan trong nước thích hợp đối với các loài cá dao động trong khoảng", choices:[{key:"A", text:"từ 4 đến 5 mg/L."}, {key:"B", text:"dưới 3 mg/L."}, {key:"C", text:"từ 1 đến 5 mg/L."}, {key:"D", text:"dưới 1 mg/L."}], answer:"A" },
+  { id:"MCQ-45", title:"Câu 45. Phát biểu nào không đúng khi nói về vai trò của nhóm vi sinh vật có lợi…?", choices:[{key:"A", text:"Có khả năng phân giải thức ăn dư thừa."}, {key:"B", text:"Phân huỷ chất thải của thuỷ sản nuôi."}, {key:"C", text:"Chuyển hoá một số khí độc thành chất không độc."}, {key:"D", text:"Có thể sinh ra các khí độc như NH₃, H₂S."}], answer:"D" },
+  { id:"MCQ-46", title:"Câu 46. Nhóm vi sinh vật phổ biến có thể gây bệnh cho thuỷ sản nuôi là", choices:[{key:"A", text:"Bacillus."}, {key:"B", text:"Nitrosomonas."}, {key:"C", text:"Nitrobacter."}, {key:"D", text:"Vibrio."}], answer:"D" },
+  { id:"MCQ-47", title:"Câu 47. Yếu tố chính tạo ra chất thải và gây ảnh hưởng lớn đến chất lượng môi trường nước nuôi thuỷ sản là", choices:[{key:"A", text:"cung cấp thức ăn cho động vật thuỷ sản."}, {key:"B", text:"bổ sung chế phẩm sinh học."}, {key:"C", text:"bổ sung hoá chất xử lí môi trường."}, {key:"D", text:"bổ sung thuốc phòng và điều trị bệnh."}], answer:"A" },
+  { id:"MCQ-48", title:"Câu 48. Phát biểu nào không đúng khi nói về vai trò của việc quản lí môi trường nuôi thuỷ sản?", choices:[{key:"A", text:"Duy trì điều kiện sống ổn định, phù hợp cho động vật thuỷ sản sinh trưởng."}, {key:"B", text:"Tăng cường sự phát sinh ô nhiễm môi trường trên diện rộng."}, {key:"C", text:"Giảm chi phí xử lí ô nhiễm trong nuôi thuỷ sản."}, {key:"D", text:"Đảm bảo các thông số môi trường trong khoảng phù hợp cho từng đối tượng nuôi."}], answer:"B" },
+  { id:"MCQ-49", title:"Câu 49. Các loại hoá chất thích hợp thường được sử dụng để diệt tạp, diệt khuẩn là", choices:[{key:"A", text:"chlorine, phèn nhôm."}, {key:"B", text:"chlorine, thuốc tím, phèn nhôm."}, {key:"C", text:"chlorine, thuốc tím, Iodine."}, {key:"D", text:"chlorine, phèn nhôm, nước vôi trong."}], answer:"C" },
+  { id:"MCQ-50", title:"Câu 50. Một số ứng dụng của công nghệ sinh học trong xử lí môi trường nuôi thuỷ sản phổ biến là", choices:[{key:"A", text:"xử lí chất thải hữu cơ, xử lí khí độc và vi sinh vật gây hại trong môi trường nuôi."}, {key:"B", text:"xử lí chất thải vô cơ, xử lí khí độc và vi sinh vật gây hại trong môi trường nuôi."}, {key:"C", text:"xử lí chất thải vô cơ, xử lí khí độc và vi sinh vật có lợi trong môi trường nuôi."}, {key:"D", text:"xử lí chất thải hữu cơ, xử lí khí độc và vi sinh vật có lợi trong môi trường nuôi."}], answer:"A" },
 
-  /* PHẦN II */
+  /* PHẦN II: ĐÚNG/SAI (TF 1-10) */
   {
     id:"TF-1", title:"Câu 1. Ứng dụng vi sinh vật trong xử lí môi trường nuôi thuỷ sản",
     items:[
@@ -173,108 +228,118 @@ const DATA = [
       {key:"a", text:"Mật ong rừng là tài nguyên rừng nên cần bảo vệ, nghiêm cấm mọi hành vi khai thác mật ong của người dân.", answer:false},
       {key:"b", text:"Khuyến khích người dân đốt lửa khai thác mật ong nhằm nâng cao hiệu quả kinh tế.", answer:false},
       {key:"c", text:"Đốt lửa khai thác mật ong có thể dẫn đến suy thoái tài nguyên rừng nên cần nghiêm cấm.", answer:true},
-      {key:"d", text:"Được phép khai thác mật ong rừng nhưng phải dùng biện pháp hợp lí.", answer:true},
+      {key:"d", text:"Được phép khai thác mật ong rừng nhưng phải dùng biện pháp hợp lí để không ảnh hưởng đàn ong và tài nguyên rừng khác.", answer:true},
     ]
   },
   {
     id:"TF-3", title:"Câu 3. So sánh mô hình quảng canh và thâm canh",
     items:[
-      {key:"a", text:"Thuỷ sản chịu tác động của nhiệt độ, điều kiện khí hậu và kĩ thuật chăm sóc.", answer:true},
-      {key:"b", text:"Quảng canh sinh trưởng kém vì phụ thuộc hoàn toàn thức ăn tự nhiên.", answer:false},
-      {key:"c", text:"Thâm canh được cung cấp đầy đủ giống, thức ăn nên năng suất cao.", answer:false},
-      {key:"d", text:"Vốn đầu tư lớn là ưu điểm của thâm canh.", answer:false},
+      {key:"a", text:"Thuỷ sản chịu tác động của các yếu tố như nhiệt độ, điều kiện khí hậu môi trường và kĩ thuật chăm sóc.", answer:true},
+      {key:"b", text:"Mô hình II sinh trưởng kém vì phụ thuộc hoàn toàn thức ăn và con giống tự nhiên, ít đầu tư cơ sở vật chất.", answer:false},
+      {key:"c", text:"Mô hình I được cung cấp đầy đủ giống, thức ăn, thiết bị hiện đại, thuốc… nên năng suất cao, ít nhiễm bệnh.", answer:false},
+      {key:"d", text:"Vốn đầu tư lớn và yêu cầu kĩ thuật cao là ưu điểm của mô hình II.", answer:false},
     ]
   },
   {
     id:"TF-4", title:"Câu 4. Phân loại các nhóm thuỷ sản",
     items:[
-      {key:"a", text:"Thuỷ sản bản địa là những loài có nguồn gốc tự nhiên tại Việt Nam.", answer:true},
-      {key:"b", text:"Cá rô phi thuộc nhóm thuỷ sản ăn động vật.", answer:false},
-      {key:"c", text:"Phân loại dựa vào cấu tạo: cá, bò sát, nhuyễn thể.", answer:false},
-      {key:"d", text:"Cá hồi vân, cá tầm sống ở vùng ôn đới nước lạnh.", answer:false},
+      {key:"a", text:"Thuỷ sản bản địa là những loài có nguồn gốc và phân bố trong môi trường tự nhiên tại Việt Nam.", answer:true},
+      {key:"b", text:"Cá rô phi ăn cả động vật, thực vật và mùn bã hữu cơ nên thuộc nhóm thuỷ sản ăn động vật.", answer:false},
+      {key:"c", text:"Dựa vào cấu tạo có thể phân loại thuỷ sản thành 3 nhóm: cá, bò sát, nhuyễn thể.", answer:false},
+      {key:"d", text:"Cá hồi vân, cá tầm, cá chép, cá quả, cá rô phi là nhóm sống ở vùng ôn đới nước lạnh.", answer:false},
     ]
   },
   {
     id:"TF-5", title:"Câu 5. Thời tiết khí hậu ảnh hưởng chất lượng môi trường thuỷ sản",
     items:[
-      {key:"a", text:"Thời tiết ảnh hưởng đến mức nhiệt trung bình.", answer:true},
-      {key:"b", text:"Các loài thuỷ sản có khoảng nhiệt độ phù hợp giống nhau.", answer:false},
-      {key:"c", text:"Đối tượng nuôi không bị ảnh hưởng bởi thời tiết.", answer:false},
-      {key:"d", text:"Mùa vụ thả nuôi không bị ảnh hưởng bởi khí hậu.", answer:false},
+      {key:"a", text:"Thời tiết khí hậu ảnh hưởng đến mức nhiệt trung bình và biến động nhiệt độ theo mùa.", answer:true},
+      {key:"b", text:"Các loài thuỷ sản nói chung đều có khoảng nhiệt độ phù hợp giống nhau.", answer:false},
+      {key:"c", text:"Xác định đối tượng nuôi không bị ảnh hưởng bởi điều kiện thời tiết, khí hậu.", answer:false},
+      {key:"d", text:"Mùa vụ thả nuôi và số vụ thả nuôi trong năm không bị ảnh hưởng bởi thời tiết, khí hậu.", answer:false},
     ]
   },
   {
-    id:"TF-6", title:"Câu 6. Xu hướng phát triển thuỷ sản",
+    id:"TF-6", title:"Câu 6. Xu hướng phát triển thuỷ sản ở Việt Nam và trên thế giới",
     items:[
-      {key:"a", text:"Phát triển bền vững gắn với bảo vệ nguồn lợi là xu hướng toàn cầu.", answer:true},
-      {key:"b", text:"Tăng tỉ lệ nuôi, giảm tỉ lệ khai thác.", answer:true},
-      {key:"c", text:"Bắt buộc phải tuân theo tiêu chuẩn VietGAP.", answer:false},
-      {key:"d", text:"Công nghệ thông minh giúp nâng cao năng suất.", answer:true},
+      {key:"a", text:"Phát triển bền vững gắn với bảo vệ nguồn lợi thuỷ sản là xu hướng của hầu hết các quốc gia.", answer:true},
+      {key:"b", text:"Phát triển bền vững cần tăng tỉ lệ nuôi, giảm tỉ lệ khai thác.", answer:true},
+      {key:"c", text:"Nuôi trồng bền vững bắt buộc phải tuân theo tiêu chuẩn VietGAP, GlobalGAP.", answer:false},
+      {key:"d", text:"Phát triển công nghệ nuôi thông minh, an toàn thực phẩm, thân thiện môi trường giúp nâng cao năng suất, chất lượng và giảm tác động môi trường.", answer:true},
     ]
   },
   {
     id:"TF-7", title:"Câu 7. Lựa chọn nguồn nước và quản lí nước thải",
     items:[
-      {key:"a", text:"Nguồn nước đảm bảo thì đối tượng nuôi phát triển tốt.", answer:true},
-      {key:"b", text:"Mỗi loại thuỷ sản có môi trường sinh trưởng riêng.", answer:true},
+      {key:"a", text:"Nguồn nước đảm bảo thì đối tượng nuôi sẽ sinh trưởng, phát triển tốt.", answer:true},
+      {key:"b", text:"Mỗi loại thuỷ sản đều có môi trường sinh trưởng và phát triển riêng.", answer:true},
       {key:"c", text:"Ao chứa nước cần có diện tích tối thiểu 5%.", answer:false},
-      {key:"d", text:"Cần quản lí nước thải trước khi xả ra môi trường.", answer:true},
+      {key:"d", text:"Cần quản lí nước thải sau nuôi trước khi thải ra môi trường để tránh ô nhiễm.", answer:true},
     ]
   },
   {
-    id:"TF-8", title:"Câu 8. Ứng dụng CNSH xử lí khí độc",
+    id:"TF-8", title:"Câu 8. Ứng dụng CNSH xử lí khí độc trong nước nuôi thuỷ sản",
     items:[
-      {key:"a", text:"Các khí độc: NH₃, NO₃, H₂S.", answer:false},
-      {key:"b", text:"Nhóm vi khuẩn nitrogen ứng dụng là Nitrosomonas và Azotobacter.", answer:false},
-      {key:"c", text:"Chuyển hoá: NH₃ → NO₂ → NO.", answer:true},
-      {key:"d", text:"Sử dụng chế phẩm sinh học bổ sung vào hệ thống nuôi.", answer:true},
+      {key:"a", text:"Các khí độc trong môi trường nuôi: NH₃, NO₃, H₂S, ...", answer:false},
+      {key:"b", text:"Nhóm vi khuẩn chuyển hoá nitrogen ứng dụng phổ biến là Nitrosomonas và Azotobacter.", answer:false},
+      {key:"c", text:"Con đường chuyển hoá xử lí khí độc theo thứ tự: NH₃ → NO₂ → NO.", answer:true},
+      {key:"d", text:"Vi khuẩn dùng dạng chế phẩm sinh học bổ sung vào hệ thống nuôi hoặc kết hợp các công nghệ xử lí môi trường.", answer:true},
     ]
   },
   {
     id:"TF-9", title:"Câu 9. Quan sát màu nước ao nuôi",
     items:[
-      {key:"a", text:"Màu nước ngọt phù hợp là xanh nõn chuối.", answer:true},
-      {key:"b", text:"Nước mặn thích hợp là vàng nâu và xanh rêu.", answer:false},
-      {key:"c", text:"Quan sát màu nước giúp đánh giá chất lượng.", answer:true},
-      {key:"d", text:"Màu không phù hợp: xanh rêu đậm, vàng cam, đỏ gạch.", answer:true},
+      {key:"a", text:"Màu nước phù hợp nhất cho thuỷ sản nước ngọt là xanh nhạt (xanh nõn chuối) do tảo lục phát triển.", answer:true},
+      {key:"b", text:"Nước lợ, mặn: màu thích hợp là vàng nâu (nước trà) và xanh rêu.", answer:false},
+      {key:"c", text:"Quan sát màu nước giúp đánh giá chất lượng nước và điều chỉnh kịp thời cho tôm, cá.", answer:true},
+      {key:"d", text:"Các màu không phù hợp: xanh rêu, vàng cam, đỏ gạch.", answer:true},
     ]
   },
   {
     id:"TF-10", title:"Câu 10. Biện pháp xử lí nước thải nuôi thuỷ sản",
     items:[
-      {key:"a", text:"Bổ sung vi sinh vật có lợi phân giải chất hữu cơ.", answer:true},
-      {key:"b", text:"Dùng ao lắng kết hợp thực vật thuỷ sinh.", answer:true},
-      {key:"c", text:"Nước thải cá nước ngọt có thể dùng tưới cây.", answer:true},
-      {key:"d", text:"Bùn đáy ao tôm có thể dùng bón cây ngay.", answer:false},
+      {key:"a", text:"Bổ sung hệ vi sinh vật có lợi phân giải chất hữu cơ và chất độc vào môi trường sau nuôi.", answer:true},
+      {key:"b", text:"Dùng ao lắng, bổ sung chế phẩm sinh học hoặc trồng thực vật thuỷ sinh để tăng xử lí chất thải.", answer:true},
+      {key:"c", text:"Mô hình nuôi kết hợp: nước thải ao nuôi cá nước ngọt có thể dùng tưới cây.", answer:true},
+      {key:"d", text:"Bùn đáy ao nuôi tôm có thể nạo vét bón cây hoặc ủ tạo phân vi sinh.", answer:false},
     ]
   },
 ];
 
-/* CẤU HÌNH LOGIC */
+/* ====== LOGIC APP ====== */
 let currentPool = [];
 let currentIndex = 0;
 let userAnswers = {};
-const DELAY_AUTO_NEXT = 1000; // Thời gian chờ 1 giây
+const AUTO_NEXT_DELAY = 1000; // 1 giây
 
+// Khởi động Quiz
 function startQuiz(type) {
   currentPool = DATA.filter(q => q.id.startsWith(type === 'mcq' ? 'MCQ' : 'TF'));
   currentIndex = 0;
   userAnswers = {};
+  
   document.getElementById('menuScreen').classList.add('hidden');
   document.getElementById('quizScreen').classList.remove('hidden');
-  document.getElementById('modeTag').textContent = type === 'mcq' ? 'TRẮC NGHIỆM ABCD' : 'ĐÚNG / SAI';
+  document.getElementById('modeTag').textContent = type === 'mcq' ? 'TRẮC NGHIỆM' : 'ĐÚNG / SAI';
   renderQuestion();
 }
 
+// Quay về Menu
 function backToMenu() {
   document.getElementById('quizScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.add('hidden');
   document.getElementById('menuScreen').classList.remove('hidden');
 }
 
+// Render câu hỏi
 function renderQuestion() {
   const q = currentPool[currentIndex];
   const grid = document.getElementById('optionsGrid');
+  const content = document.getElementById('questionContent');
+  
+  // Hiệu ứng chuyển cảnh
+  content.style.opacity = '1';
+  
+  // Cập nhật thông tin cơ bản
   document.getElementById('qIndex').textContent = `${currentIndex + 1}/${currentPool.length}`;
   document.getElementById('qTitle').textContent = q.title;
   document.getElementById('qPrompt').textContent = q.prompt || "";
@@ -283,11 +348,15 @@ function renderQuestion() {
   
   grid.innerHTML = '';
 
+  /* === RENDER CHO TRẮC NGHIỆM (MCQ) === */
   if (q.id.startsWith('MCQ')) {
     q.choices.forEach(c => {
       const btn = document.createElement('button');
-      btn.className = `option-btn glass p-4 rounded-2xl text-left border border-zinc-800 transition-all flex items-start gap-3 hover:bg-zinc-900`;
-      btn.innerHTML = `<span class="bg-zinc-800 px-2 py-0.5 rounded text-[10px] font-bold mt-1">${c.key}</span> <span class="text-sm text-zinc-200">${c.text}</span>`;
+      btn.className = `option-btn w-full glass p-5 rounded-2xl text-left border border-zinc-800 transition-all flex items-start gap-4 hover:bg-zinc-800 hover:border-zinc-600 group`;
+      btn.innerHTML = `
+        <div class="w-8 h-8 rounded-lg bg-zinc-900 border border-zinc-700 flex items-center justify-center text-xs font-bold text-zinc-400 shrink-0 mt-0.5 group-hover:bg-zinc-800 group-hover:text-zinc-200 transition-colors shadow-inner">${c.key}</div>
+        <div class="text-sm text-zinc-300 leading-relaxed group-hover:text-white transition-colors">${c.text}</div>
+      `;
       
       const ua = userAnswers[currentIndex];
       if (ua) {
@@ -299,80 +368,113 @@ function renderQuestion() {
       }
       grid.appendChild(btn);
     });
-  } else {
-    q.items.forEach((item, idx) => {
-      const div = document.createElement('div');
-      div.className = "p-4 glass rounded-2xl border border-zinc-800/50";
-      div.innerHTML = `
-        <p class="text-sm mb-3"><span class="font-bold text-emerald-500">${item.key})</span> ${item.text}</p>
-        <div class="flex gap-2">
-          <button data-v="true" onclick="selectTF(${idx}, true)" class="tf-btn flex-1 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-[10px] font-bold hover:bg-emerald-500/10 transition uppercase">Đúng</button>
-          <button data-v="false" onclick="selectTF(${idx}, false)" class="tf-btn flex-1 py-2.5 rounded-xl bg-zinc-900 border border-zinc-800 text-[10px] font-bold hover:bg-rose-500/10 transition uppercase">Sai</button>
+  } 
+  
+  /* === RENDER CHO ĐÚNG/SAI (TF) === */
+  else {
+    q.items.forEach((item, itemIdx) => {
+      const row = document.createElement('div');
+      row.className = "p-5 glass rounded-2xl border border-zinc-800 space-y-4 hover:bg-zinc-900/40 transition-colors";
+      row.innerHTML = `
+        <p class="text-[13px] leading-relaxed text-zinc-200"><span class="font-bold text-emerald-500 mr-2 border border-emerald-500/30 px-1.5 py-0.5 rounded bg-emerald-500/10 text-xs">${item.key}</span>${item.text}</p>
+        <div class="flex gap-3">
+          <button data-val="true" onclick="selectTF(${itemIdx}, true)" class="flex-1 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-emerald-400 transition-all hover:bg-emerald-500/10 hover:border-emerald-500/30 active:scale-95 shadow-lg shadow-black/20">Đúng</button>
+          <button data-val="false" onclick="selectTF(${itemIdx}, false)" class="flex-1 py-3 rounded-xl bg-zinc-900 border border-zinc-800 text-[10px] font-black uppercase tracking-[0.2em] text-zinc-500 hover:text-rose-400 transition-all hover:bg-rose-500/10 hover:border-rose-500/30 active:scale-95 shadow-lg shadow-black/20">Sai</button>
         </div>
       `;
-      grid.appendChild(div);
+      grid.appendChild(row);
       
       const ua = userAnswers[currentIndex];
-      if (ua && ua[idx] !== undefined) {
-        const pickedTrue = ua[idx] === true;
-        div.querySelector(`button[data-v="${pickedTrue}"]`).classList.add(pickedTrue ? 'correct' : 'wrong');
-        div.querySelectorAll('button').forEach(b => b.disabled = true);
+      if (ua && ua[itemIdx] !== undefined) {
+        const picked = ua[itemIdx];
+        const targetBtn = row.querySelector(`button[data-val="${picked}"]`);
+        
+        // Logic màu sắc: Màu xanh nếu chọn đúng ý đó, màu đỏ nếu chọn sai ý đó
+        const isCorrectChoice = picked === item.answer;
+        targetBtn.classList.add(isCorrectChoice ? 'correct' : 'wrong');
+        
+        // Khóa nút
+        row.querySelectorAll('button').forEach(b => {
+            b.disabled = true;
+            b.classList.add('opacity-50', 'cursor-not-allowed');
+        });
+        targetBtn.classList.remove('opacity-50'); // Giữ nguyên độ sáng nút đã chọn
       }
     });
   }
   updateScore();
 }
 
+// Xử lý chọn MCQ
 function selectMCQ(key) {
   if (userAnswers[currentIndex]) return;
   userAnswers[currentIndex] = key;
   renderQuestion();
   
   const q = currentPool[currentIndex];
-  // Chỉ tự động qua câu nếu chọn ĐÚNG
+  // Nếu đúng -> chờ 1s -> qua câu
   if (key === q.answer) {
     if (currentIndex < currentPool.length - 1) {
-      setTimeout(() => changeQuestion(1), DELAY_AUTO_NEXT);
+      setTimeout(() => changeQuestion(1), AUTO_NEXT_DELAY);
     } else {
-      setTimeout(showResult, DELAY_AUTO_NEXT);
+      setTimeout(showResult, AUTO_NEXT_DELAY);
     }
   }
 }
 
+// Xử lý chọn TF
 function selectTF(itemIdx, val) {
   if (!userAnswers[currentIndex]) userAnswers[currentIndex] = {};
-  userAnswers[currentIndex][itemIdx] = val;
+  if (userAnswers[currentIndex][itemIdx] !== undefined) return;
   
+  userAnswers[currentIndex][itemIdx] = val;
+  const q = currentPool[currentIndex];
+  
+  // Highlight nút vừa bấm ngay lập tức (để giao diện phản hồi nhanh)
   const grid = document.getElementById('optionsGrid');
   const row = grid.children[itemIdx];
-  row.querySelector(`button[data-v="${val}"]`).classList.add(val ? 'correct' : 'wrong');
-  row.querySelectorAll('button').forEach(b => b.disabled = true);
+  const btn = row.querySelector(`button[data-val="${val}"]`);
+  const isCorrectChoice = val === q.items[itemIdx].answer;
+  
+  btn.classList.add(isCorrectChoice ? 'correct' : 'wrong');
+  row.querySelectorAll('button').forEach(b => {
+      b.disabled = true;
+      if (b !== btn) b.classList.add('opacity-50', 'cursor-not-allowed');
+  });
 
+  // Kiểm tra nếu đã trả lời xong cả 4 ý (a,b,c,d)
   const answeredCount = Object.keys(userAnswers[currentIndex]).length;
   if (answeredCount === 4) {
-    const q = currentPool[currentIndex];
+    // Kiểm tra xem có đúng hết 4 ý không
     const isAllCorrect = q.items.every((it, i) => userAnswers[currentIndex][i] === it.answer);
-    
-    // Chỉ tự động qua câu nếu đúng toàn bộ cả 4 ý
     if (isAllCorrect) {
       if (currentIndex < currentPool.length - 1) {
-        setTimeout(() => changeQuestion(1), DELAY_AUTO_NEXT);
+        setTimeout(() => changeQuestion(1), AUTO_NEXT_DELAY);
       } else {
-        setTimeout(showResult, DELAY_AUTO_NEXT);
+        setTimeout(showResult, AUTO_NEXT_DELAY);
       }
     }
   }
   updateScore();
 }
 
+// Chuyển câu hỏi
 function changeQuestion(step) {
-  const newIdx = currentIndex + step;
-  if (newIdx >= 0 && newIdx < currentPool.length) {
-    currentIndex = newIdx;
-    renderQuestion();
-  }
+  const content = document.getElementById('questionContent');
+  content.style.opacity = '0'; // Hiệu ứng fade out
+  
+  setTimeout(() => {
+    const newIdx = currentIndex + step;
+    if (newIdx >= 0 && newIdx < currentPool.length) {
+      currentIndex = newIdx;
+      renderQuestion();
+    } else if (newIdx >= currentPool.length) {
+      showResult();
+    }
+  }, 200); // Chờ fade out xong mới render
 }
 
+// Cập nhật điểm
 function updateScore() {
   let score = 0;
   Object.keys(userAnswers).forEach(idx => {
@@ -380,6 +482,7 @@ function updateScore() {
     if (q.id.startsWith('MCQ')) {
       if (userAnswers[idx] === q.answer) score++;
     } else {
+      // Logic điểm TF: Phải đúng cả 4 ý mới tính 1 điểm
       if (Object.keys(userAnswers[idx]).length === 4) {
         const ok = q.items.every((it, i) => userAnswers[idx][i] === it.answer);
         if (ok) score++;
@@ -390,20 +493,35 @@ function updateScore() {
   return score;
 }
 
+// Hiện đáp án
 function revealAnswer() {
   const q = currentPool[currentIndex];
   if (q.id.startsWith('MCQ')) {
-    alert("Đáp án đúng là: " + q.answer);
+    alert(`💡 Đáp án chính xác là: ${q.answer}`);
   } else {
-    const txt = q.items.map(it => `${it.key}: ${it.answer ? 'ĐÚNG' : 'SAI'}`).join('\n');
-    alert("Đáp án chi tiết:\n" + txt);
+    const result = q.items.map(it => `${it.key.toUpperCase()}: ${it.answer ? 'ĐÚNG' : 'SAI'}`).join('\n');
+    alert(`💡 Đáp án chi tiết:\n${result}`);
   }
 }
 
+// Hiện màn hình kết quả
 function showResult() {
   const score = updateScore();
   document.getElementById('quizScreen').classList.add('hidden');
   document.getElementById('resultScreen').classList.remove('hidden');
+  
+  // Animation số điểm chạy từ 0 lên
+  let currentDisplay = 0;
+  const target = score;
+  const interval = setInterval(() => {
+      if (currentDisplay >= target) {
+          clearInterval(interval);
+      } else {
+          currentDisplay++;
+          document.getElementById('resCorrect').textContent = currentDisplay;
+      }
+  }, 50);
+  
   document.getElementById('resCorrect').textContent = score;
   document.getElementById('resPercent').textContent = Math.round((score / currentPool.length) * 100) + '%';
 }
